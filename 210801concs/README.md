@@ -16,9 +16,9 @@ Test simulation of CaMKII-GluN2Bc system
 - References
 
   - Scripting in VMD
-    https://www.ks.uiuc.edu/Training/Tutorials/vmd/tutorial-html/node4.html
+      - https://www.ks.uiuc.edu/Training/Tutorials/vmd/tutorial-html/node4.html
 
   - I put the following "remove_long_bonds" in $HOME/.vmdrc
-    https://www.ks.uiuc.edu/Research/vmd/mailing_list/vmd-l/23787.html
+      - https://www.ks.uiuc.edu/Research/vmd/mailing_list/vmd-l/23787.html
 
   - Based on demonstatration 1: Single Molecule Example - DiBlock Copolymer
