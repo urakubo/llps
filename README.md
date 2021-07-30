@@ -7,4 +7,5 @@ Test simulation of CaMKII-GluN2Bc system
   - lassi
   - vmd
   - python3
+  - ffmpeg
   - open PBS
