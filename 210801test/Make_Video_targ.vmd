@@ -1,0 +1,68 @@
+## Simple Visualization Script to see simulation trajectory
+## The trajectory is centered around the COM
+
+color Display Background white
+material change opacity Transparent 0.7
+display culling off
+display depthcue on
+display cuedensity 0.3
+display rendermode GLSL
+
+set data_dir   ./data_targ/
+set output_dir ./imgs_targ/
+
+#Read in the topology file
+set filename1 ${data_dir}SMol_topo.lammpstrj
+topo readlammpsdata $filename1
+set filename2 ${data_dir}SMol_trj.lammpstrj
+mol addfile $filename2 waitfor all
+
+#Set style to beads
+
+mol modstyle 0 0 CPK 1.5 0 12 12
+
+# CPK: Sphere scale, Sphere resolution, Bond radius, Bond resolution
+# I did not show the bonds, because
+# I do not know how to eliminate long bonds "in time development"
+# under periodic boundary conditions.
+# mol modstyle 0 0 CPK 1.5 0.4 12 12
+# mol modstyle 0 0 Lines 1.0 1.6
+
+set allBeads [atomselect top all]
+
+set colorcmds {
+    {color Name {0} purple}
+    {color Name {1} cyan}
+    {color Name {2} green}
+    {color Name {3} green}
+    {color Type {0} purple}
+    {color Type {1} cyan}
+    {color Type {2} green}
+    {color Type {3} green}
+    }
+foreach colcmd $colorcmds {
+    set val [catch {eval $colcmd}]
+  }
+#color change rgb 11 0.0 0.0 1.0
+#color change rgb 12 0.5 0.0 0.5
+
+pbc set {150 150 150} -all -molid top
+pbc box -color black -width 0.5
+#pbc box -shiftcenter {300 300 300} -color black -width 0.5
+
+pbc wrap -center com
+molinfo top set frame 0
+#remove_long_bonds 10
+display resize 800 800
+display resetview
+
+set num [molinfo top get numframes]
+for {set i 0} {$i < $num} {incr i 1} {
+    set filename ${output_dir}snap.[format "%04d" $i].ppm
+    display resize 800 800
+    render snapshot $filename
+    animate goto $i
+    #pbc wrap -center com
+    #set newCen [measure center $allBeads]
+    #$allBeads moveby [vecinvert $newCen]
+}

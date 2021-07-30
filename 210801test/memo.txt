@@ -1,0 +1,28 @@
+
+Extensions => Visualization => Movie maker => 
+Movie setting => trajectory
+Set working directory => img2, etc
+Format, ffmpeg, 1 or 2
+
+text labeling  Frame\: %{frame_num}
+
+
+https://stackoverflow.com/questions/15364861/frame-number-overlay-with-ffmpeg
+
+ffmpeg -i input -vf "drawtext=fontfile=Arial.ttf: text='%{frame_num}': start_number=1: x=(w-tw)/2: y=h-(2*lh): fontcolor=black: fontsize=20: box=1: boxcolor=white: boxborderw=5" -c:a copy output
+
+ffmpeg -i input -vf "drawtext=fontfile=Arial.ttf: text='Frame\: %{frame_num}': start_number=1: x=(w-tw)/2: y=h-(2*lh): fontcolor=black: fontsize=20: box=1: boxcolor=white: boxborderw=5" -c:a copy output
+
+
+ffmpeg -i untitled.mpg -vf "drawtext=fontfile=Arial.ttf: text='Frame\: %{frame_num}': start_number=1: x=(w-tw)/2: y=h-(2*lh): fontcolor=black: fontsize=20: box=1: boxcolor=white: boxborderw=5" -c:a copy labeled.mpg
+
+
+ffmpeg -i untitled.mpg -vf "drawtext=fontfile=Arial.ttf: text='Frame\: %{frame_num}': start_number=1: x=(w-tw)/2: y=h-(2*lh): fontcolor=black: fontsize=20: box=1: boxcolor=white: boxborderw=5" -c:a copy labeled.mpg
+
+ffmpeg -i imgs/untitled.%05d.ppm -vcodec libx264 -pix_fmt yuv420p video.mp4
+
+ffmpeg -i imgs_targ_1/snap.%04d.ppm -vcodec libx264 -pix_fmt yuv420p -vf "drawtext=fontfile=Arial.ttf: text='Frame\: %{frame_num}': start_number=1: x=(w-tw)/2: y=h-(2*lh): fontcolor=black: fontsize=25: box=1: boxcolor=white: boxborderw=5" video_targ.mp4
+
+ffmpeg -i imgs_ctl/snap.%04d.ppm -vcodec libx264 -pix_fmt yuv420p -vf "drawtext=fontfile=Arial.ttf: text='Frame\: %{frame_num}': start_number=1: x=(w-tw)/2: y=h-(2*lh): fontcolor=black: fontsize=25: box=1: boxcolor=white: boxborderw=5" video_ctl.mp4
+
+ffmpeg -r 15 -i imgs_demo/snap.%04d.ppm -vcodec libx264 -pix_fmt yuv420p video_demo.mp4

@@ -1,0 +1,63 @@
+## Simple Visualization Script to see simulation trajectory
+## The trajectory is centered around the COM
+
+color Display Background white
+material change opacity Transparent 0.7
+display culling off
+display depthcue on
+display cuedensity 0.3
+display rendermode GLSL
+
+
+set num_param 9
+set base_dir ./targs
+set targ_dir ./imgs
+
+display resize 800 800
+
+for {set i 0} {$i < $num_param} {incr i 1} {
+
+    resetpsf
+    mol on $i
+    set filename1 ${base_dir}/[format "%03d" $i]/SMol_topo.lammpstrj
+    topo readlammpsdata $filename1
+
+    set filename2 ${base_dir}/[format "%03d" $i]/SMol_trj.lammpstrj
+    mol addfile $filename2 waitfor all
+
+    set outout_filename ${targ_dir}/[format "%03d" $i].ppm
+
+    mol modstyle 0 $i CPK 1.5 0 12 12
+    set num [molinfo top get numframes]
+    molinfo top set frame 0
+
+    #pbc set {150 150 150} -all -molid top
+    set allBeads [atomselect top all]
+
+    set colorcmds {
+    	{color Name {0} purple}
+    	{color Name {1} cyan}
+    	{color Name {2} green}
+    	{color Name {3} green}
+    	{color Type {0} purple}
+    	{color Type {1} cyan}
+    	{color Type {2} green}
+    	{color Type {3} green}
+    	}
+    foreach colcmd $colorcmds {
+    	    set val [catch {eval $colcmd}]
+  	    }
+
+    pbc set {150 150 150} -all -molid top
+    pbc box -color black -width 0.5
+    display resetview
+    set num [molinfo top get numframes]
+    animate goto [expr $num-1]
+    pbc set {150 150 150} -last now
+    # pbc wrap -center com
+    # pbc wrap -center com
+    # pbc box -center bb
+    display resize 800 800
+    render snapshot $outout_filename
+    mol delete $i
+    }

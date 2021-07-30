@@ -1,0 +1,65 @@
+## Simple Visualization Script to see simulation trajectory
+## The trajectory is centered around the COM
+
+color Display Background white
+material change opacity Transparent 0.7
+display culling off
+display depthcue on
+display cuedensity 0.3
+display rendermode GLSL
+
+set targ_dir 008
+set base_dir ./targs/
+
+append tmp1 $base_dir $targ_dir "/SMol_topo.lammpstrj"
+topo readlammpsdata $tmp1
+
+append tmp2 $base_dir $targ_dir "/SMol_trj.lammpstrj"
+mol addfile $tmp2 waitfor all
+
+append tmp3 "./imgs/" $targ_dir ".ppm"
+set outout_filename $tmp3
+
+
+
+mol modstyle 0 0 CPK 1.5 0 12 12
+
+set allBeads [atomselect top all]
+
+set colorcmds {
+    {color Name {0} purple}
+    {color Name {1} cyan}
+    {color Name {2} green}
+    {color Name {3} green}
+    {color Name {4} green}
+    {color Name {5} green}
+    {color Name {6} green}
+    {color Name {7} green}
+    {color Type {0} purple}
+    {color Type {1} cyan}
+    {color Type {2} green}
+    {color Type {3} green}
+    {color Type {4} green}
+    {color Type {5} green}
+    {color Type {6} green}
+    {color Type {7} green}
+    }
+foreach colcmd $colorcmds {
+    set val [catch {eval $colcmd}]
+  }
+#color change rgb 11 0.0 0.0 1.0
+#color change rgb 12 0.5 0.0 0.5
+
+pbc set {150 150 150} -all -molid top
+pbc box -color black -width 0.5
+
+#pbc wrap -center com
+molinfo top set frame 0
+#remove_long_bonds 10
+display resize 800 800
+display resetview
+
+set num [molinfo top get numframes]
+animate goto [expr $num-1]
+display resize 800 800
+render snapshot $outout_filename
