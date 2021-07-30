@@ -1,6 +1,4 @@
-Test simulation of CaMKII-GluN2Bc system
-
--------------------------------------------
+Simulation programs of CaMKII llps
 
 - Requirements
 
