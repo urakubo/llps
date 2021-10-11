@@ -6,7 +6,11 @@ Based on demonstatration 1: Single Molecule Example - DiBlock Copolymer
 
 -- python3 prep_files.py
 
--- python3 run_files.py (run on open PBS)
+-- python3 run_files_openPBS.py (run on open PBS)
+
+-- python3 run_files_sequential.py (run on single core sequentially)
+
+-- python3 run_files_parallel..py (run using multiple processes on a single computer)
 
 -- vmd -e Make_final_images.vmd (Molecular color problem is unsolved).
 
