@@ -52,11 +52,13 @@ for i, (CKII,T) in enumerate(zip(CaMKII_, TEMP_)):
     with open(param_source_file) as f:
         data_lines=f.read()
     struct_file = os.path.join(targ_dir, struct_targ_file)
+    output_prefix = os.path.join(targ_dir, "SMol")
     energy_file = os.path.join(base_dir, energy_file)
     data_lines = data_lines.replace("## STRUCT_FILE ##", struct_file)
     data_lines = data_lines.replace("## ENERGY_FILE ##", energy_file)
     data_lines = data_lines.replace("## MC_DELTA_TEMP ##"   , str(DELTA_TEMP))
     data_lines = data_lines.replace("## MC_TEMP ##"   , str(T))
+    data_lines = data_lines.replace("## OUTPUT_DIR_PREFIX ##", output_prefix)
     with open(os.path.join(targ_dir, param_targ_file), mode="w") as f:
         f.write(data_lines)
     
