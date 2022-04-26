@@ -66,8 +66,6 @@ for i, (CKII,T) in enumerate(zip(CaMKII_, TEMP_)):
     with open(os.path.join(targ_dir, qsub_file), mode="w") as f:
         f.write('#!/bin/bash\n')
         f.write('#PBS -N '+ subdir + ' \n')
-        f.write('#PBS -l nodes=1:ppn=1:node01\n')
-        f.write('#PBS -l nodes=1:ppn=1:node02\n')
-        f.write('#PBS -l nodes=1:ppn=1:node03\n')
+        f.write('#PBS -q bio\n')
         f.write('cd $PBS_O_WORKDIR\n')
         f.write(os.path.join(os.path.dirname(base_dir), 'lassi')+'\n')
